@@ -5,17 +5,30 @@ import (
 	"math"
 	"sort"
 	"strconv"
+
+	"github.com/fatih/color"
 )
 
 const (
 	tick = `▇`
 )
 
+var colorMap = map[string]color.Attribute{
+	"black":   color.FgHiBlack,
+	"red":     color.FgHiRed,
+	"green":   color.FgHiGreen,
+	"yellow":  color.FgHiYellow,
+	"blue":    color.FgHiBlue,
+	"magenta": color.FgHiMagenta,
+	"cyan":    color.FgHiCyan,
+	"white":   color.FgHiWhite,
+}
+
 // Chart Handle the normalization of data and the printing of the graph.
-func Chart(title string, labels []string, data [][]float64, colors []string, width float64) {
+func Chart(title string, labels []string, data [][]float64, colors []string, width float64, stacked bool) {
 	// Find longest name
 	maxLengthSlice := maxLengthSlice(labels)
-	fmtLabelPrefix := "%" + strconv.Itoa(maxLengthSlice) + "s: "
+	fmtLabelPrefix := "%" + strconv.Itoa(maxLengthSlice) + "s"
 
 	// Normalize data
 	normData := Normalize(data, width)
@@ -25,18 +38,39 @@ func Chart(title string, labels []string, data [][]float64, colors []string, wid
 		fmt.Println(title)
 	}
 	for i, label := range labels {
-		fmt.Printf(fmtLabelPrefix, label)
+		var totalData float64
 		for j, d := range normData[i] {
-			for idx := 0; idx < int(d); idx++ {
-				if j == 1 {
-					fmt.Print(tick)
-					continue
+			totalData += data[i][j]
+			if stacked {
+				if j == 0 {
+					fmt.Printf(fmtLabelPrefix+": ", label)
 				}
-				fmt.Print(tick)
+				if len(colors) == len(normData[i]) {
+					color.Set(colorMap[colors[j]])
+				}
+				for idx := 0; idx < int(d); idx++ {
+					fmt.Print(tick)
+				}
+				color.Unset()
+			} else {
+				if j == 0 {
+					fmt.Printf(fmtLabelPrefix+": ", label)
+				} else {
+					fmt.Printf(fmtLabelPrefix+"  ", "")
+				}
+				if len(colors) == len(normData[i]) {
+					color.Set(colorMap[colors[j]])
+				}
+				for idx := 0; idx < int(d); idx++ {
+					fmt.Print(tick)
+				}
+				color.Unset()
+				fmt.Printf(" %.1f\n", data[i][j])
 			}
 		}
-		fmt.Printf(" %.1f", data[i][0])
-		fmt.Println()
+		if stacked {
+			fmt.Printf(" %.1f\n", totalData)
+		}
 	}
 }
 
