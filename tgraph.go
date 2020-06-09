@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	tick = `▇`
+	defaultTick = `▇`
 )
 
 var colorMap = map[string]color.Attribute{
@@ -25,7 +25,12 @@ var colorMap = map[string]color.Attribute{
 }
 
 // Chart Handle the normalization of data and the printing of the graph.
-func Chart(title string, labels []string, data [][]float64, colors []string, width float64, stacked bool) {
+func Chart(title string, labels []string, data [][]float64, colors []string, width float64, stacked bool, tick string) {
+	// Set tick
+	if len(tick) == 0 {
+		tick = defaultTick
+	}
+
 	// Find longest name
 	maxLengthSlice := maxLengthSlice(labels)
 	fmtLabelPrefix := "%" + strconv.Itoa(maxLengthSlice) + "s"
