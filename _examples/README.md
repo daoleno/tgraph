@@ -17,6 +17,8 @@ tgraph <csv data file>
     title of graph
 -width float
     width of graph in characters default:50 (default 50)
+-category string
+        categories for different color. example: loved/dreaded
 -color string
     support red,blue,green,magenta,yellow,black,cyan
 -custom-tick string
@@ -58,6 +60,14 @@ tgraph data1.csv --title "Most Loved/Dreaded Languages" --color red,yellow
 ```
 
 ![img](imgs/colors.png)
+
+An example with categories
+
+```sh
+tgraph data1.csv --title "Most Loved/Dreaded Languages" --category Loved,Dreaded --color red,yellow
+```
+
+![img](imgs/categories.png)
 
 An example with stacked:
 

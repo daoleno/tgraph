@@ -12,11 +12,12 @@ import (
 )
 
 var (
-	title   string
-	width   float64
-	color   string
-	stacked bool
-	tick    string
+	title    string
+	width    float64
+	category string
+	color    string
+	stacked  bool
+	tick     string
 )
 
 var flagSet *flag.FlagSet
@@ -25,6 +26,7 @@ func init() {
 	flagSet = flag.NewFlagSet("", flag.ExitOnError)
 	flagSet.StringVar(&title, "title", "", "title of graph")
 	flagSet.Float64Var(&width, "width", 50, "width of graph in characters default:50")
+	flagSet.StringVar(&category, "category", "", "categories for different color. example: loved/dreaded")
 	flagSet.StringVar(&color, "color", "", "support red,blue,green,magenta,yellow,black,cyan")
 	flagSet.BoolVar(&stacked, "stacked", false, "stacked bar graph default:false")
 	flagSet.StringVar(&tick, "custom-tick", "▇", "custom tick")
@@ -50,8 +52,9 @@ Usage: go run main.go data.csv
 	labels := records[0]
 	data := resolveNumber(records[1:])
 	colors := strings.Split(color, ",")
+	categories := strings.Split(category, ",")
 
-	tgraph.Chart(title, labels, data, colors, width, stacked, tick)
+	tgraph.Chart(title, labels, data, categories, colors, width, stacked, tick)
 }
 
 func readCSV(file string) ([][]string, error) {

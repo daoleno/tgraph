@@ -44,7 +44,8 @@ func TestChart(t *testing.T) {
 	labels2 := []string{"testtest", "t", "testtf", "test"}
 
 	data := [][]float64{{3.14, 6.28}, {6.27, 7.91}, {43.4, 4.33}, {68.9, 33.7}}
+	categories := []string{"Loved", "Dreaded"}
 	colors := []string{"white", "red"}
-	Chart(title, labels1, data, colors, 50, false, "|")
-	Chart(title, labels2, data, colors, 50, true, "|")
+	Chart(title, labels1, data, categories, colors, 50, false, "")
+	Chart(title, labels2, data, nil, colors, 50, true, "|")
 }

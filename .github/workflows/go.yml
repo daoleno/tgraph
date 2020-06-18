@@ -25,3 +25,9 @@ jobs:
 
       - name: Test
         run: go test -v .
+
+      - name: Build, Test example
+        run: |
+          cd _examples/
+          go build -v .
+          go test -v .

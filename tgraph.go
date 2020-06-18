@@ -25,10 +25,20 @@ var colorMap = map[string]color.Attribute{
 }
 
 // Chart Handle the normalization of data and the printing of the graph.
-func Chart(title string, labels []string, data [][]float64, colors []string, width float64, stacked bool, tick string) {
+func Chart(title string, labels []string, data [][]float64, categories []string, colors []string, width float64, stacked bool, tick string) {
 	// Set tick
 	if len(tick) == 0 {
 		tick = defaultTick
+	}
+
+	// Print title
+	if len(title) != 0 {
+		fmt.Printf("%s\n\n", title)
+	}
+
+	// Print categories
+	if categories != nil {
+		printCategories(categories, colors, tick)
 	}
 
 	// Find longest name
@@ -39,9 +49,6 @@ func Chart(title string, labels []string, data [][]float64, colors []string, wid
 	normData := Normalize(data, width)
 
 	// Print data
-	if len(title) != 0 {
-		fmt.Println(title)
-	}
 	for i, label := range labels {
 		var totalData float64
 		for j, d := range normData[i] {
@@ -165,6 +172,18 @@ func findMaxFloat64(vv [][]float64) float64 {
 		}
 	}
 	return m
+}
+
+// Prints a tick and the category's name for each category above the graph.
+func printCategories(categories []string, colors []string, tick string) {
+	for i, c := range categories {
+		if len(colors) == len(categories) {
+			color.Set(colorMap[colors[i]])
+		}
+		fmt.Printf("%s %s ", tick, c)
+		color.Unset()
+	}
+	fmt.Printf("\n\n")
 }
 
 func maxLengthSlice(labels []string) int {
