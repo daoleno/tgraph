@@ -171,6 +171,19 @@ func maxLengthSlice(labels []string) int {
 	if len(labels) == 0 {
 		return 0
 	}
-	sort.Strings(labels)
+	sort.Sort(ByLength(labels))
 	return len(labels[len(labels)-1])
+}
+
+// ByLength In order to sort by the length of the string
+type ByLength []string
+
+func (s ByLength) Len() int {
+	return len(s)
+}
+func (s ByLength) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+func (s ByLength) Less(i, j int) bool {
+	return len(s[i]) < len(s[j])
 }

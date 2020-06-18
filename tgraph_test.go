@@ -40,8 +40,11 @@ func TestNormalize(t *testing.T) {
 
 func TestChart(t *testing.T) {
 	title := "eureka"
-	labels := []string{"2020", "2021", "2022", "2023"}
+	labels1 := []string{"2020", "2021", "2020", "2023"}
+	labels2 := []string{"testtest", "t", "testtf", "test"}
+
 	data := [][]float64{{3.14, 6.28}, {6.27, 7.91}, {43.4, 4.33}, {68.9, 33.7}}
 	colors := []string{"white", "red"}
-	Chart(title, labels, data, colors, 50)
+	Chart(title, labels1, data, colors, 50, false, "|")
+	Chart(title, labels2, data, colors, 50, true, "|")
 }
