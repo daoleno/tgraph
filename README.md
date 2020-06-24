@@ -15,7 +15,7 @@ Graph types supported:
 
 ## Examples
 
-see [\_examples](./_examples/README.md)
+[\_examples](./_examples/README.md) have a cli tool that shows how to use the package.
 
 ## License
 
